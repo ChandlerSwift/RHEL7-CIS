@@ -115,6 +115,7 @@
         shell: 'getent passwd | cut -d: -f1 | sort -n | uniq -d'
         changed_when: no
         failed_when: no
+        check_mode: no
         register: group_group_check
 
       - name: "6.2.6 | L1 | AUDIT | Ensure no duplicate group names exist | Print message that no duplicate groups exist"
@@ -139,6 +140,7 @@
         shell: "pwck -r | awk -F: '{if ($3 in uid) print $1 ; else uid[$3]}' /etc/passwd"
         changed_when: no
         failed_when: no
+        check_mode: no
         register: user_uid_check
 
       - name: "6.2.7 | L1 | AUDIT | Ensure no duplicate UIDs exist | Print message that no duplicate UIDs exist"
@@ -164,6 +166,7 @@
         shell: "pwck -r | awk -F: '{if ($3 in users) print $1 ; else users[$3]}' /etc/group"
         changed_when: no
         failed_when: no
+        check_mode: no
         register: user_user_check
 
       - name: "6.2.8 | L1 | AUDIT | Ensure no duplicate GIDs exist | Print message that no duplicate GID's exist"
@@ -186,6 +189,7 @@
   command: passwd -l {{ item }}
   changed_when: no
   failed_when: no
+  check_mode: no
   loop: "{{ uid_zero_accounts_except_root.stdout_lines }}"
   when:
       - uid_zero_accounts_except_root.rc
@@ -202,6 +206,7 @@
         become: yes
         register: path_colon
         changed_when: False
+        check_mode: no
         failed_when: path_colon.rc == 0
 
       - name: "6.2.10 | L1 | AUDIT | Ensure root PATH Integrity | Determin colon end"
@@ -209,6 +214,7 @@
         become: yes
         register: path_colon_end
         changed_when: False
+        check_mode: no
         failed_when: path_colon_end.rc == 0
 
       - name: "6.2.10 | L1 | AUDIT | Ensure root PATH Integrity | Determine dot in path"
@@ -216,6 +222,7 @@
         become: yes
         register: dot_in_path
         changed_when: False
+        check_mode: no
         failed_when: '"." in dot_in_path.stdout_lines'
 
       - name: "6.2.10 | L1 | AUDIT | Ensure root PATH Integrity | Alert on empty value, colon end, and dot in path"

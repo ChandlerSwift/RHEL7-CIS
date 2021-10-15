@@ -23,6 +23,7 @@
       - name: "1.2.2 | L1 | AUDIT | Ensure package manager repositories are configured"
         shell: yum repolist
         changed_when: no
+        check_mode: no
         register: repolist
         tags:
             - skip_ansible_lint

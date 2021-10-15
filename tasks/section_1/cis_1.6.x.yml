@@ -68,6 +68,7 @@
         register: rhelcis_1_6_1_6_unconf_daemons
         failed_when: no
         changed_when: no
+        check_mode: no
 
       - name: "1.6.1.6 | L1 | AUDIT | Ensure no unconfined daemons exist | Message on no unconfined daemones"
         debug:

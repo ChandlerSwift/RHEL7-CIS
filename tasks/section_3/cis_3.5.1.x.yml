@@ -60,6 +60,7 @@
         command: firewall-cmd --get-default-zone
         changed_when: no
         register: current_default_zone
+        check_mode: no
 
       - name: "3.5.1.5 | L1 | PATCH | Ensure default zone is set"
         command: firewall-cmd --set-default-zone="{{ rhel7cis_default_zone }}"
@@ -78,6 +79,7 @@
         shell: "nmcli -t connection show | awk -F: '{ if($4){print $4} }' | while read INT; do firewall-cmd --get-active-zones | grep -B1 $INT; done"
         register: rhel7cis_3_5_1_6_interfacepolicy
         changed_when: no
+        check_mode: no
         become: yes
 
       - name: "3.5.1.6 | L1 | AUDIT | Ensure network interfaces are assigned to appropriate zone | Get list of interfaces and policies | Show the interface to policy"
@@ -99,6 +101,7 @@
         register: rhel7cis_3_5_1_7_servicesport
         become: true
         changed_when: no
+        check_mode: no
 
       - name: "3.5.1.7 | L1 | AUDIT | Ensure firewalld drops unnecessary services and ports | Show services and ports"
         debug:
